@@ -1,0 +1,47 @@
+<!-- templates/products/category_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} — ToriloShop{% endblock %}
+
+{% block content %}
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h1>{{ title }}</h1>
+        
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'category_list' %}">← Back to Categories</a>
+        </div>
+
+        <div class="card">
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div style="margin-bottom: 20px;">
+                        <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                            {{ field.label }}
+                        </label>
+                        
+                        {{ field }}
+                        
+                        {% if field.errors %}
+                            <div style="color: #721c24; background: #f8d7da; padding: 5px 10px; border-radius: 4px; margin-top: 5px; font-size: 14px;">
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="submit" class="btn" style="padding: 10px 24px;">
+                        {{ submit_text }}
+                    </button>
+                    <a href="{% url 'category_list' %}" class="btn" style="background: #6c757d;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

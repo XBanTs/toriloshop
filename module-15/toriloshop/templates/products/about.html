@@ -1,0 +1,33 @@
+<!-- templates/products/about.html -->
+{% extends 'base.html' %}
+
+{% block title %}About ToriloShop{% endblock %}
+
+{% block content %}
+    <h1>About ToriloShop</h1>
+    
+    <div class="card">
+        <h2>Our Story</h2>
+        <p>ToriloShop was founded in 2025 with a simple mission: to provide quality products at fair prices while delivering exceptional customer service. We believe shopping should be simple, enjoyable, and accessible to everyone.</p>
+    </div>
+
+    <div class="card">
+        <h2>What We Offer</h2>
+        <ul style="line-height: 1.8;">
+            <li>Wide selection of products across {{ total_categories }} categories</li>
+            <li>Over {{ total_products }} quality products and growing</li>
+            <li>Secure payment processing</li>
+            <li>Fast and reliable shipping</li>
+            <li>30-day easy returns</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Our Commitment</h2>
+        <p>We are committed to sustainability and ethical business practices. We carefully select our suppliers and ensure all products meet our high standards for quality and environmental responsibility.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+        <a href="{% url 'product_list' %}" class="btn" style="padding: 12px 32px;">Start Shopping</a>
+    </div>
+{% endblock %}

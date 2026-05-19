@@ -1,0 +1,30 @@
+# Virtual Environment (at repository root)
+../venv/
+
+# Module-specific ignores
+.qodo/
+
+# Common Python/Django ignores
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.pyd
+.DS_Store
+.env
+.vscode/
+.idea/
+*.swp
+*.swo
+db.sqlite3
+*.log
+Thumbs.db
+
+
+media/
+
+staticfiles/
+
+keys.txt

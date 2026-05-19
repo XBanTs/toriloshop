@@ -1,0 +1,52 @@
+<!-- templates/products/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Welcome to ToriloShop{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1>Welcome to ToriloShop</h1>
+        <p style="color: #666; font-size: 1.2em;">Your one-stop shop for quality products</p>
+    </div>
+
+    <!-- Featured Products Section -->
+    <h2>Featured Products</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        {% for product in featured_products %}
+            <div class="card">
+                <h3>{{ product.name }}</h3>
+                <p style="color: #666;">{{ product.category.name }}</p>
+                <p style="font-size: 1.3em; font-weight: bold;">&#8358;{{ product.price|floatformat:2 }}</p>
+                
+                {% if product.stock > 0 %}
+                    <span class="badge-in">In Stock</span>
+                {% else %}
+                    <span class="badge-out">Out of Stock</span>
+                {% endif %}
+                
+                <p style="margin-top: 12px;">
+                    <a class="btn" href="{% url 'product_detail' product.pk %}">View Details</a>
+                </p>
+            </div>
+        {% empty %}
+            <p>No products available yet. Add some through the admin panel.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Categories Section -->
+    <h2>Shop by Category</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        {% for category in categories %}
+            <div class="card" style="text-align: center;">
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.product_count }} product{{ category.product_count|pluralize }}</p>
+                <a href="{% url 'category_list' %}" style="color: #1a1a2e; text-decoration: none;">Browse →</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="{% url 'product_list' %}" class="btn" style="padding: 12px 32px;">View All Products</a>
+        <a href="{% url 'category_list' %}" class="btn" style="padding: 12px 32px; margin-left: 16px;">Browse Categories</a>
+    </div>
+{% endblock %}

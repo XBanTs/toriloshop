@@ -1,0 +1,41 @@
+<!-- templates/products/category_confirm_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}Delete Category — ToriloShop{% endblock %}
+
+{% block content %}
+    <div style="max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #721c24;">Delete Category</h1>
+        
+        <div class="card" style="border-color: #f5c6cb;">
+            <h2>Are you sure you want to delete "{{ category.name }}"?</h2>
+            
+            {% if category.description %}
+                <p><strong>Description:</strong> {{ category.description }}</p>
+            {% endif %}
+            
+            {% if product_count > 0 %}
+                <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                    <p style="font-weight: bold; margin-top: 0;">⚠️ Warning: This category contains {{ product_count }} product{{ product_count|pluralize }}.</p>
+                    <p>Deleting this category will also delete all associated products. This action cannot be undone.</p>
+                </div>
+            {% else %}
+                <p style="color: #721c24; font-weight: bold; margin: 20px 0;">
+                    ⚠️ This action cannot be undone.
+                </p>
+            {% endif %}
+            
+            <form method="POST" style="margin-top: 24px;">
+                {% csrf_token %}
+                <div style="display: flex; gap: 12px;">
+                    <button type="submit" class="btn" style="background: #dc3545; padding: 10px 24px;">
+                        Yes, Delete Category
+                    </button>
+                    <a href="{% url 'category_list' %}" class="btn" style="background: #6c757d;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

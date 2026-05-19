@@ -1,0 +1,52 @@
+<!-- templates/products/product_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} — ToriloShop{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h1>{{ title }}</h1>
+        
+        <a href="{% url 'product_list' %}" class="back-link">← Back to Products</a>
+
+        <div class="card">
+            <!-- NOTE: enctype="multipart/form-data" is REQUIRED for file uploads -->
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="message-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                
+                {% for field in form %}
+                    <div class="mb-20">
+                        <label for="{{ field.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                            {{ field.label }}
+                        </label>
+                        
+                        {{ field }}
+                        
+                        {% if field.errors %}
+                            <div class="form-error">
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        {% if field.help_text %}
+                            <small class="text-muted" style="display: block; margin-top: 5px;">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                
+                <div class="flex gap-12 mt-24">
+                    <button type="submit" class="btn">{{ submit_text }}</button>
+                    <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

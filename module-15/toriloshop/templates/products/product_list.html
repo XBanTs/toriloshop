@@ -1,0 +1,110 @@
+<!-- templates/products/product_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}All Products — ToriloShop{% endblock %}
+
+{% block content %}
+    <!-- Header with Add button -->
+    <div class="page-header">
+        <h1>All Products</h1>
+        {% if user.is_authenticated %}
+            <a href="{% url 'product_create' %}" class="btn btn-success">+ Add New Product</a>
+        {% endif %}
+    </div>
+
+    <!-- Search Bar -->
+    <div class="card mb-20" style="background: #f8f9fa;">
+        <form method="GET" action="{% url 'product_list' %}" class="flex gap-12">
+            <div style="flex: 1;">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Search products by name, description, or category..." 
+                    value="{{ search_query }}"
+                    class="form-control"
+                >
+            </div>
+            <button type="submit" class="btn">🔍 Search</button>
+            {% if search_query %}
+                <a href="{% url 'product_list' %}" class="btn btn-secondary">✕ Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Search Results Info -->
+    {% if search_query %}
+        <p class="mb-20 text-muted">
+            Showing results for: <strong>"{{ search_query }}"</strong> 
+            ({{ products|length }} product{{ products|length|pluralize }} found)
+        </p>
+    {% endif %}
+
+    <!-- Messages display -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Product Grid - 3 Columns -->
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+                <!-- Product Image -->
+                <div class="product-card-image">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div class="no-image-card">No Image</div>
+                    {% endif %}
+                </div>
+                
+                <!-- Product Info -->
+                <div class="product-card-body">
+                    <span class="product-category">{{ product.category.name }}</span>
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-price">&#8358;{{ product.price|floatformat:2 }}</p>
+                    
+                    <div class="product-stock">
+                        {% if product.stock > 0 %}
+                            <span class="badge-in">In Stock ({{ product.stock }})</span>
+                        {% else %}
+                            <span class="badge-out">Out of Stock</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="product-actions">
+                        <a class="btn btn-sm" href="{% url 'product_detail' product.pk %}">View</a>
+                        
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-sm btn-warning" href="{% url 'product_update' product.pk %}">Edit</a>
+                        {% endif %}
+                        
+                        {% if user.is_staff %}
+                            <a class="btn btn-sm btn-danger" href="{% url 'product_delete' product.pk %}">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        {% empty %}
+            <div class="text-center" style="grid-column: 1 / -1; padding: 40px;">
+                {% if search_query %}
+                    <h3>No products found matching "{{ search_query }}"</h3>
+                    <p class="text-muted">Try different keywords or browse all products.</p>
+                    <a href="{% url 'product_list' %}" class="btn mt-20">View All Products</a>
+                {% else %}
+                    <h3>No products found</h3>
+                    <p class="text-muted">Get started by adding your first product.</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'product_create' %}" class="btn mt-20">Add New Product</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn mt-20">Login to Add Products</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ToriloShop{% endblock %}</title>
+    <!-- External CSS file -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">   
+</head>
+<body>
+    <nav>
+        <a href="/" class="brand">ToriloShop</a>
+        
+        <!-- Navigation Search Bar -->
+        <form method="GET" action="/products/" class="nav-search-form">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="Search products..." 
+                value="{{ search_query }}"
+                class="nav-search-input"
+            >
+            <button type="submit" class="nav-search-btn">🔍</button>
+        </form>
+
+        <!-- Hamburger Toggle Button (visible only on mobile) -->
+        <button class="hamburger-toggle" id="hamburgerToggle" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <div class="nav-links" id="navLinks">
+            <a href="/products/">Products</a>
+            <a href="/categories/">Categories</a>
+            <a href="/about/">About</a>
+
+             <!-- AUTH LINKS — SHOWN BASED ON LOGIN STATE -->
+            {% if user.is_authenticated %}
+                <!-- Shown when user IS logged in -->
+                <span style="color: #4a90d9; font-size: 13px; margin-left: 8px;">
+                    👤 {{ user.username }}
+                </span>
+
+                <!-- Logout as a POST form for security -->
+           <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+             {% csrf_token %}
+            <button type="submit" style="
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            padding: 0;
+            text-decoration: none;
+        ">Logout</button>
+    </form>
+
+            {% else %}
+                <!-- Shown when user is NOT logged in -->
+                <a href="{% url 'login' %}" style="color: #4a90d9;">Login</a>
+                <a href="{% url 'register' %}" style="color: #28a745;">Register</a>
+            {% endif %}
+
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>ToriloShop &copy; 2026 — Built By "XBanTs" using Django</p>
+    </footer>
+
+     <!-- Hamburger Menu JavaScript -->
+    <script>
+        const hamburgerToggle = document.getElementById('hamburgerToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburgerToggle.addEventListener('click', function() {
+            hamburgerToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        const links = navLinks.querySelectorAll('a, button');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                hamburgerToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = event.target.closest('nav');
+            if (!isClickInsideNav && navLinks.classList.contains('active')) {
+                hamburgerToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+    
+</body>
+</html>

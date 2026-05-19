@@ -1,0 +1,49 @@
+<!-- templates/products/category_list.html -->
+{% extends 'base.html' %}
+
+{% block title %}Categories — ToriloShop{% endblock %}
+
+{% block content %}
+    <!-- Header with Add button -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Categories</h1>
+        <a href="{% url 'category_create' %}" class="btn" style="background: #28a745;">+ Add New Category</a>
+    </div>
+
+    <!-- Messages display -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Category Cards -->
+    {% for category in categories %}
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <h3>{{ category.name }}</h3>
+                <div style="display: flex; gap: 8px;">
+                    <a href="{% url 'category_update' category.pk %}" class="btn" style="background: #ffc107; color: #000; padding: 4px 12px;">Edit</a>
+                    <a href="{% url 'category_delete' category.pk %}" class="btn" style="background: #dc3545; padding: 4px 12px;">Delete</a>
+                </div>
+            </div>
+
+            {% if category.description %}
+                <p>{{ category.description }}</p>
+            {% endif %}
+
+            <p>
+                {% if category.product_count == 1 %}
+                    1 product
+                {% else %}
+                    {{ category.product_count }} products
+                {% endif %}
+            </p>
+        </div>
+
+    {% empty %}
+        <p>No categories found. <a href="{% url 'category_create' %}">Add your first category</a>.</p>
+    {% endfor %}
+{% endblock %}

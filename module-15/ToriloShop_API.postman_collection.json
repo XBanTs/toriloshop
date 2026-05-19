@@ -1,0 +1,82 @@
+{
+  "info": {
+    "_postman_id": "f0129618-0478-44f8-8ca4-5a70a73f6869",
+    "name": "ToriloShop API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50131043"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"\", \"price\": -5, \"category_id\": 999}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/products/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "products",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc4Njg2OTE3LCJpYXQiOjE3Nzg2ODYwMTcsImp0aSI6ImM1MDcwOGFlOTQzYjQ4NmNiMTgyODlkMzdmZjQ0MjM2IiwidXNlcl9pZCI6IjEifQ.3CeOxbedFzapGeZjcKB9aAx26Q68907LNHCMLGzQeYM",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"ayo\",\r\n    \"password\": \"@password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/token/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "token",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

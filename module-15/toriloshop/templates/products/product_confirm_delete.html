@@ -1,0 +1,40 @@
+<!-- templates/products/product_confirm_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}Delete Product — ToriloShop{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h1 style="color: #721c24;">Delete Product</h1>
+        
+        <div class="card" style="border-color: #f5c6cb;">
+            <h2>Are you sure you want to delete "{{ product.name }}"?</h2>
+            
+            <!-- Show product image if it exists -->
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-thumbnail mt-20">
+            {% endif %}
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                <p><strong>Category:</strong> {{ product.category.name }}</p>
+                <p><strong>Price:</strong> &#8358;{{ product.price|floatformat:2 }}</p>
+                <p><strong>Stock:</strong> {{ product.stock }} units</p>
+                {% if product.description %}
+                    <p><strong>Description:</strong> {{ product.description|truncatewords:20 }}</p>
+                {% endif %}
+            </div>
+            
+            <p style="color: #721c24; font-weight: bold;">
+                ⚠️ This action cannot be undone. The product will be permanently deleted.
+            </p>
+            
+            <form method="POST" class="mt-24">
+                {% csrf_token %}
+                <div class="flex gap-12">
+                    <button type="submit" class="btn btn-danger">Yes, Delete Product</button>
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
